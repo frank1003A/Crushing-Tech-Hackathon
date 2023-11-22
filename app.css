@@ -399,9 +399,19 @@ img#chev-up {
     opacity: 0;
 }
 
+.steps .step .info span:nth-child(2),
+.steps .step .info button {
+    display: none;
+}
+
 .step-active {
     background-color: #F3F3F3;
     height: fit-content !important;
+}
+
+.steps .step.step-active .info span:nth-child(2),
+.steps .step.step-active .info button {
+    display: block;
 }
 
 .steps .step.step-active>img {
@@ -469,6 +479,18 @@ img#chev-up {
     font-style: normal;
     font-weight: 500;
     color: #616161;
+}
+
+.visually-hidden:not(:focus):not(:active) {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: auto;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    white-space: nowrap;
 }
 
 @media only screen and (max-width: 600px) {
