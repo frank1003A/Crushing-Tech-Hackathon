@@ -37,13 +37,13 @@
       </div>
       <div class="tag">
         <div class="dropdown" id="not-dropdown">
-          <div class="notbell">
+          <button class="notbell" aria-haspopup="true" aria-controls="menu">
             <img
               src="https://crushingit.tech/hackathon-assets/icon-bell.svg"
               alt="notification"
             />
-          </div>
-          <div class="dropdown-container">
+          </button>
+          <div role="menu" class="dropdown-container">
             <div style="padding: 0px 16px">
               <div class="flex_between">
                 <span>Alerts</span>
@@ -75,13 +75,13 @@
           </div>
         </div>
         <div class="dropdown" id="user-dropdown">
-          <div class="detail">
+          <button class="detail" aria-haspopup="true" aria-controls="menu">
             <span class="name">davii collections</span>
             <div class="badge">
               <span>DC</span>
             </div>
-          </div>
-          <div class="dropdown-container">
+          </button>
+          <div role="menu" class="dropdown-container">
             <div style="padding: 0px 6px; margin-bottom: 4px">
               <div class="box">
                 <div class="user">
@@ -109,13 +109,19 @@
             </div>
             <hr />
             <div style="padding: 0px 6px; margin-top: 4px; margin-bottom: 4px">
-              <a href="admin.shopify.com" class="menu-item">Help Center</a>
-              <a href="admin.shopify.com" class="menu-item">Changelog</a>
-              <a href="admin.shopify.com" class="menu-item">Community forums</a>
-              <a href="admin.shopify.com" class="menu-item"
+              <a role="menuitem" href="admin.shopify.com" class="menu-item"
+                >Help Center</a
+              >
+              <a role="menuitem" href="admin.shopify.com" class="menu-item"
+                >Changelog</a
+              >
+              <a role="menuitem" href="admin.shopify.com" class="menu-item"
+                >Community forums</a
+              >
+              <a role="menuitem" href="admin.shopify.com" class="menu-item"
                 >Hire a Shopify Partner</a
               >
-              <a href="admin.shopify.com" class="menu-item"
+              <a role="menuitem" href="admin.shopify.com" class="menu-item"
                 >Keyboard shortcuts</a
               >
             </div>
@@ -127,8 +133,12 @@
                   <span>davidmicheal@gmail.com</span>
                 </div>
               </div>
-              <a href="admin.shopify.com" class="menu-item">Manage account</a>
-              <a href="admin.shopify.com" class="menu-item">Logout</a>
+              <a role="menuitem" href="admin.shopify.com" class="menu-item"
+                >Manage account</a
+              >
+              <a role="menuitem" href="admin.shopify.com" class="menu-item"
+                >Logout</a
+              >
             </div>
           </div>
         </div>
