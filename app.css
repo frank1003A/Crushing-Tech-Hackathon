@@ -2,6 +2,21 @@
 :root {
     --primary--: #E3E3E3;
     --dark--: #1A1A1A;
+    --grey-50: #656266;
+    --grey-100: #616161;
+    --grey-200: #322f33;
+    --grey-300: #1c181d;
+    --fontColor-light: #e3e3e3;
+    --fontColor-mid: #616161;
+    --fontColor-dark: #475467;
+    --strokes-s50: #ebebeb;
+    --strokes-s100: #00000007;
+    --strokes-s200: #ffffff20;
+    --states-hover: #f7f7f7;
+    --states-pressed: #f0f0f0;
+    --states-focused: #005bd3;
+    --white: #ffffff;
+    --background: #f1f1f1;
 }
 
 * {
@@ -39,22 +54,47 @@ button {
 
 .select-plan {
     background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.10);
     box-shadow: 0px -1px 0px 0px #B5B5B5 inset;
     font-size: 12px;
     font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--grey-300);
+}
+
+.select-plan:hover {
+    background: #F7F7F7;
+}
+
+.select-plan:active {
+    background: #F7F7F7;
+    box-shadow: 0px 2px 1.5px 0px #E2E2E2 inset;
+}
+
+.select-plan:focus-visible {
+    background: #FFF;
+    box-shadow: 0px 0px 0px 3px #005BD3, 0px 0px 0px 1px #FFF, 0px -1px 0px 0px #B5B5B5 inset;
+}
+
+.rotate_180 {
+    transform: rotate(180deg);
+}
+
+.rotate_0 {
+    transform: rotate(0deg);
 }
 
 .icon-btn {
     background: none;
     padding: 6px;
     border: none;
-    transition: .3s;
+    position: relative;
 }
 
-.icon-btn:focus,
-.icon-btn:focus-visible,
-.icon-btn:focus-within {
-    border-color: #005BD3;
+.icon-btn:focus-visible {
+    outline: 2px solid #005BD3;
 }
 
 .icon-btn:hover {
@@ -76,6 +116,8 @@ button {
 .icon-btn img {
     background: none;
     padding: 0;
+    display: block;
+    transition: .5s;
 }
 
 .step_btn {
@@ -92,6 +134,25 @@ button {
     color: white;
     font-size: 12p;
     width: fit-content;
+    transition: box-shadow .3s, border .3s, background .3s;
+}
+
+.step_btn:hover {
+    background: #2A2A2A;
+}
+
+.step_btn:active {
+    background: #2A2A2A;
+    box-shadow: 0px 0px 0px 1.5px #333, 0px 3px 0px 0px #000 inset;
+}
+
+.step_btn:focus-visible {
+    border: 1px solid #fff;
+    outline: 2px solid #005BD3;
+}
+
+.step_check_btn {
+    background: none;
 }
 
 .btn_text {
@@ -104,6 +165,20 @@ button {
     background: none;
     font-size: 12p;
     width: fit-content;
+    margin-left: 10px;
+    border: 1px solid transparent;
+    transition: box-shadow .3s, border .3s, all .3s;
+}
+
+.btn_text:hover {
+    border: 1px solid #E7E7E7;
+    background: #E7E7E7;
+}
+
+.btn_text:focus-visible {
+    border: 1px solid #fff;
+    background: #fff;
+    outline: 2px solid #005BD3;
 }
 
 .flex {
@@ -136,7 +211,7 @@ header #mobile-logo {
 
 header .search-bar {
     width: 450px;
-    padding: 8px;
+    padding: 6px;
     display: flex;
     align-items: center;
     border-radius: 8px;
@@ -145,6 +220,16 @@ header .search-bar {
     transition: border-color.3s;
     will-change: border-width;
     gap: 8px;
+}
+
+header .search-bar button {
+    background: none;
+    border: none;
+    height: 20px;
+    width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 header .search-bar img {
@@ -188,7 +273,14 @@ header .tag .dropdown .notbell img {
     filter: brightness(0) invert(1);
 }
 
-header .tag .dropdown .detail:hover {
+header .tag .dropdown .detail:hover,
+header .tag .dropdown .detail:focus,
+header .tag .dropdown .detail:focus-visible,
+header .tag .dropdown .detail:focus-within {
+    background-color: #616161;
+}
+
+.menu-focus {
     background-color: #616161;
 }
 
@@ -197,7 +289,8 @@ header .tag .dropdown .detail {
     background: #303030;
     color: #fff;
     display: flex;
-    padding: 6px;
+    padding: 4px;
+    padding-block: 4px;
     align-items: center;
     justify-content: center;
     border-radius: 8px;
@@ -228,16 +321,19 @@ header .tag .notbell {
     cursor: pointer;
 }
 
-header .tag .notbell:hover {
+header .tag .notbell:hover,
+header .tag .notbell:focus,
+header .tag .notbell:focus-visible,
+header .tag .notbell:focus-within {
     background-color: #616161;
 }
 
 header .tag .detail .badge {
-    border-radius: 6px;
+    border-radius: 4px;
     background: #36FBA1;
     display: flex;
     height: 20px;
-    padding: 6px;
+    padding: 12px 5px;
     justify-content: center;
     align-items: center;
     color: #616161;
@@ -307,10 +403,6 @@ header .tag .detail .badge {
     align-items: flex-start;
     gap: 16px;
     width: 100%;
-}
-
-img#chev-up {
-    display: none;
 }
 
 .main-panel .guide-header {
@@ -389,14 +481,19 @@ img#chev-up {
     cursor: pointer;
     justify-content: flex-start;
     border-radius: 10px;
-    height: 40px;
+    height: 45px;
     transition: height .3s ease 0s;
     overflow: hidden;
+    margin-block: 1px;
+}
+
+.steps .step:focus-visible {
+    outline: 2px solid var(--states-focused);
 }
 
 
 .steps .step>img {
-    opacity: 0;
+    display: none;
 }
 
 .steps .step .info span:nth-child(2),
@@ -406,7 +503,11 @@ img#chev-up {
 
 .step-active {
     background-color: #F3F3F3;
-    height: fit-content !important;
+    height: 150px !important;
+}
+
+.steps .step.step-active .info span:nth-child(1) {
+    gap: 0px;
 }
 
 .steps .step.step-active .info span:nth-child(2),
@@ -415,18 +516,54 @@ img#chev-up {
 }
 
 .steps .step.step-active>img {
-    opacity: 1;
+    display: block;
 }
 
 .steps .step .indicator {
+    /*
     width: 24px;
     height: 24px;
+   */
     position: relative;
+    background: none;
+    border: none;
+    padding: 0px;
+    width: 24px;
+    height: 24px;
+}
+
+.steps .step .indicator:focus-visible {
+    outline: 2px solid var(--states-focused);
+}
+
+.steps .step .checkmark {
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border-radius: 100%;
+    border: 2px dashed #8a8a8a;
+    transition: all 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    display: none;
+    animation: scaling 0.75s forwards;
+}
+
+.steps .step .indicator svg:active {
+    animation: spin .5s linear infinite;
+}
+
+.steps .step .indicator svg:hover>circle {
+    stroke-dasharray: 0 0;
 }
 
 .steps .step .indicator img {
-    width: 100%;
-    height: 100%;
+    width: 24px;
+    height: 24px;
+    transition: all .5s;
 }
 
 .steps .step .indicator img:nth-child(1),
@@ -435,7 +572,7 @@ img#chev-up {
 }
 
 .steps .step .indicator img:nth-child(2) {
-    animation: spin 2s linear infinite;
+    animation: spin .5s linear infinite;
 }
 
 .steps .step .indicator img:nth-child(2),
@@ -443,7 +580,8 @@ img#chev-up {
     display: none;
 }
 
-.steps .step .indicator img {
+.steps .step .indicator img,
+.steps .step .indicator svg:not(.steps .step .checkmark > svg) {
     position: absolute;
     left: 0;
     right: 0;
@@ -514,6 +652,10 @@ img#chev-up {
         display: none;
     }
 
+    .steps .step.step-active>img {
+        display: none;
+    }
+
     .steps .step .info {
         gap: 20px;
         width: 100%;
@@ -526,13 +668,19 @@ img#chev-up {
 
 .box {
     display: flex;
-    padding: 10px;
+    padding: 5px;
     justify-content: space-between;
-    align-items: center;
-    align-self: stretch;
     border-radius: 8px;
     background: #F1F1F1;
     border-radius: 6px;
+    align-items: stretch;
+}
+
+.box>span {
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 hr {
@@ -551,11 +699,11 @@ hr {
 }
 
 .user .badge {
-    border-radius: 6px;
+    border-radius: 4px;
     background: #36FBA1;
     display: flex;
     height: 20px;
-    padding: 4px;
+    padding: 12px 5px;
     justify-content: center;
     align-items: center;
     color: #616161;
@@ -566,17 +714,30 @@ hr {
     justify-content: flex-start;
     align-items: flex-start;
     gap: 4px;
-    padding: 12px;
-    border-radius: 6px;
+    padding: 6px;
+    border-radius: 8px;
     color: #303030;
     font-size: 16px;
     background-color: transparent;
     text-decoration: none;
     transition: background-color .3s;
+    margin-block: 5px;
+}
+
+ul[role='list'],
+ol[role='list'],
+li {
+    list-style: none;
 }
 
 .menu-item:hover {
     background-color: var(--primary--);
+}
+
+.menu-item:focus,
+.menu-item:focus-visible,
+.menu-item:focus-within {
+    outline: 2px solid #005BD3;
 }
 
 .menu-item .col {
@@ -636,6 +797,10 @@ hr {
     display: none;
 }
 
+.menu-active {
+    display: block !important;
+}
+
 
 @media only screen and (max-width: 600px) {
     .dropdown-container {
@@ -651,5 +816,58 @@ hr {
 
     to {
         transform: rotate(359deg);
+    }
+}
+
+@keyframes spin_180 {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(180deg);
+    }
+}
+
+@keyframes scaling {
+    0% {
+        background-color: #8a8a8a;
+    }
+
+    20% {
+        background-color: transparent;
+        border: 2px solid var(--states-pressed);
+        border-top: 2px solid var(--grey-300);
+        border-left: 2px solid var(--grey-300);
+        border-right: 2px solid var(--grey-300);
+        rotate: 0deg;
+    }
+
+    40% {
+        background-color: transparent;
+        border: 2px solid var(--states-pressed);
+        border-top: 2px solid var(--grey-300);
+        border-left: 2px solid var(--grey-300);
+        border-right: 2px solid var(--grey-300);
+        rotate: -180deg;
+    }
+
+    60% {
+        background-color: transparent;
+        border: 2px solid var(--states-pressed);
+        border-top: 2px solid var(--grey-300);
+        border-left: 2px solid var(--grey-300);
+        border-right: 2px solid var(--grey-300);
+        rotate: -360deg;
+    }
+
+    80% {
+        background-color: var(--grey-100);
+        scale: 0.75;
+    }
+
+    100% {
+        background-color: var(--grey-300);
+        scale: 1;
     }
 }
