@@ -76,7 +76,7 @@
             role="menu"
             aria-labelledby="notification-button"
             id="notification-menu"
-            class="dropdown-container"
+            class="dropdown-container dd-center"
           >
             <div style="padding: 0px 16px" role="presentation">
               <div class="flex_between">
@@ -125,7 +125,7 @@
             role="menu"
             aria-labelledby="user-dropdown-button"
             id="user-menu"
-            class="dropdown-container"
+            class="dropdown-container dd-right"
           >
             <div style="padding: 0px 6px; margin-bottom: 4px" role="group">
               <div class="box" role="presentation">
@@ -260,7 +260,7 @@
             </div>
             <button
               class="icon-btn text"
-              aria-label="expand and collapse "
+              aria-label="expand and collapse guide"
               id="toggle-guide"
             >
               <img
@@ -280,35 +280,47 @@
             </div>
           </div>
         </section>
-        <section class="steps" id="stepper">
+        <section
+          class="steps"
+          id="stepper"
+          role="group"
+          aria-expanded="true"
+          aria-label="store setup guide"
+        >
           <!--online store-->
           <div
             tabindex="0"
             class="step"
+            aria-label="customize your online store"
             role="region"
-            aria-label="add your online store"
             aria-expanded="false"
           >
-            <button class="indicator" aria-label="select to customize store">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="#8A8A8A"
-                  stroke-width="2.08333"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-dasharray="5 5"
-                />
-              </svg>
-              <span class="checkmark">
+            <button
+              class="indicator"
+              aria-pressed="false"
+              aria-label="check to mark customize your online store as complete"
+            >
+              <span class="dotted_circle" aria-hidden="true">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="#8A8A8A"
+                    stroke-width="2.08333"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-dasharray="5 5"
+                  />
+                </svg>
+              </span>
+              <span class="checkmark" aria-hidden="true">
                 <svg
                   class="svg_check"
                   width="18"
@@ -330,7 +342,7 @@
               <span>Customize your online store</span>
               <span
                 >Choose a theme and add your logo, colors, and images to reflect
-                your brand. <br />
+                your brand.
                 <a
                   href="https://help.shopify.com/en/manual/online-store/themes/customizing-themes"
                   >Learn more</a
@@ -339,39 +351,46 @@
               <button class="step_btn">Customize theme</button>
             </div>
             <img
-              id="illustration"
+              id="customize illustration"
               src="https://crushingit.tech/hackathon-assets/customise-store.png"
               alt="illustration"
             />
+            <span class="visually-hidden" aria-live="polite"></span>
           </div>
           <!--add product-->
           <div
             tabindex="0"
             class="step"
             role="region"
-            aria-label="add your store products"
             aria-expanded="false"
+            aria-label="add products for your online store"
           >
-            <button class="indicator" aria-label="select to add product">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="#8A8A8A"
-                  stroke-width="2.08333"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-dasharray="5 5"
-                />
-              </svg>
-              <span class="checkmark">
+            <button
+              class="indicator"
+              aria-pressed="false"
+              aria-label="check to mark add your first product as complete"
+            >
+              <span class="dotted_circle" aria-hidden="true">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="#8A8A8A"
+                    stroke-width="2.08333"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-dasharray="5 5"
+                  />
+                </svg>
+              </span>
+              <span class="checkmark" aria-hidden="true">
                 <svg
                   class="svg_check"
                   width="18"
@@ -393,8 +412,7 @@
               <span>Add your first product</span>
               <span
                 >Write a description, add photos, and set pricing for the
-                products you plan to <br />
-                sell.
+                products you plan to sell.
                 <a
                   href="https://help.shopify.com/en/manual/products/add-update-products"
                   >Learn more</a
@@ -406,39 +424,46 @@
               </div>
             </div>
             <img
-              id="illustration"
+              id="product illustration"
               src="https://crushingit.tech/hackathon-assets/product.png"
               alt="illustration"
             />
+            <span class="visually-hidden" aria-live="polite"></span>
           </div>
           <!--custom domain-->
           <div
             tabindex="0"
             class="step"
             role="region"
-            aria-label="add your online store custom domain"
             aria-expanded="false"
+            aria-label="add custom domain for your online store"
           >
-            <button class="indicator" aria-label="select custom domain">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="#8A8A8A"
-                  stroke-width="2.08333"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-dasharray="5 5"
-                />
-              </svg>
-              <span class="checkmark">
+            <button
+              class="indicator"
+              aria-pressed="false"
+              aria-label="check to mark add a custom domain as complete"
+            >
+              <span class="dotted_circle" aria-hidden="true">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="#8A8A8A"
+                    stroke-width="2.08333"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-dasharray="5 5"
+                  />
+                </svg>
+              </span>
+              <span class="checkmark" aria-hidden="true">
                 <svg
                   class="svg_check"
                   width="18"
@@ -468,39 +493,46 @@
               <button class="step_btn">Add domain</button>
             </div>
             <img
-              id="illustration"
+              id="domain illustration"
               src="https://crushingit.tech/hackathon-assets/website.png"
               alt="illustration"
             />
+            <span class="visually-hidden" aria-live="polite"></span>
           </div>
           <!--name store-->
           <div
             tabindex="0"
             class="step"
             role="region"
-            aria-label="add your online store name"
             aria-expanded="false"
+            aria-label="name your online store"
           >
-            <button class="indicator" aria-label="select to name store">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="#8A8A8A"
-                  stroke-width="2.08333"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-dasharray="5 5"
-                />
-              </svg>
-              <span class="checkmark">
+            <button
+              class="indicator"
+              aria-pressed="false"
+              aria-label="check to mark name your store as complete"
+            >
+              <span class="dotted_circle" aria-hidden="true">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="#8A8A8A"
+                    stroke-width="2.08333"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-dasharray="5 5"
+                  />
+                </svg>
+              </span>
+              <span class="checkmark" aria-hidden="true">
                 <svg
                   class="svg_check"
                   width="18"
@@ -531,42 +563,46 @@
               <button class="step_btn">Name store</button>
             </div>
             <img
-              id="illustration"
+              id="store name illustration"
               src="https://crushingit.tech/hackathon-assets/name-store.png"
               alt="illustration"
             />
+            <span class="visually-hidden" aria-live="polite"></span>
           </div>
           <!--payment provider-->
           <div
             tabindex="0"
             class="step"
             role="region"
-            aria-label="add your online store payment provider"
             aria-expanded="false"
+            aria-label="setup a payment provider for your online store"
           >
             <button
               class="indicator"
-              aria-label="select to add payent provider"
+              aria-pressed="false"
+              aria-label="check to mark setup a payment provider as complete"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="#8A8A8A"
-                  stroke-width="2.08333"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-dasharray="5 5"
-                />
-              </svg>
-              <span class="checkmark">
+              <span class="dotted_circle" aria-hidden="true">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="#8A8A8A"
+                    stroke-width="2.08333"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-dasharray="5 5"
+                  />
+                </svg>
+              </span>
+              <span class="checkmark" aria-hidden="true">
                 <svg
                   class="svg_check"
                   width="18"
@@ -595,10 +631,11 @@
               <button class="step_btn">Set up payment</button>
             </div>
             <img
-              id="illustration"
+              id="payment illustration"
               src="https://crushingit.tech/hackathon-assets/payment.png"
               alt="illustration"
             />
+            <span class="visually-hidden" aria-live="polite"></span>
           </div>
         </section>
       </div>
