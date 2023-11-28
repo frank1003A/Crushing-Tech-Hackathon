@@ -10,14 +10,15 @@ function app() {
   const steps = document.querySelectorAll(".step");
   const checkBoxButtons = document.querySelectorAll(".indicator");
   let dottedCircles = document.querySelectorAll(".dotted_circle");
+  let loaderCircles = document.querySelectorAll(".loader-circle");
   let checkMarks = document.querySelectorAll(".checkmark");
   const contents = document.querySelectorAll(".info");
-
+  const focusableElements = document.querySelectorAll('[tabindex="0"]');
   //
   let isActive = 0;
   let completed = [];
   const stepMax = 5;
-
+  let resizeTimer;
   //
   const profileMenuTrigger = menus[1].querySelector("button");
   const profileMenu = menus[1].querySelector(".dropdown-container");
@@ -48,12 +49,10 @@ function app() {
       chevDownIcon.classList.remove("rotate_180");
       chevDownIcon.classList.add("rotate_0");
       guideContainer.ariaExpanded = "false";
-      btn.ariaLabel.replace("collapse guide", "expand guide");
     } else {
       chevDownIcon.classList.remove("rotate_0");
       chevDownIcon.classList.add("rotate_180");
       guideContainer.ariaExpanded = "true";
-      btn.ariaLabel.replace("expand guide", "collapse guide");
     }
   }
 
@@ -64,19 +63,18 @@ function app() {
     }
     // Toggle the "display_none" class on the stepper element
     guideContainer.classList.toggle("display_none");
+
+    /**const isExpanded =
+      guideContainer.attributes["aria-expanded"].value === "true";
+
+    if (isExpanded) {
+      btn.ariaLabel = "collapse guide";
+    } else {
+      btn.ariaLabel = "expand guide";
+    } */
     // Call the function to rotate the chevron icon
     rotateChevronIcon(this);
   });
-
-  function calculatePaddingOrMargin(element) {
-    const computedStyle = window.getComputedStyle(element);
-    const paddingTop = parseFloat(computedStyle.paddingTop);
-    const paddingBottom = parseFloat(computedStyle.paddingBottom);
-    const marginTop = parseFloat(computedStyle.marginTop);
-    const marginBottom = parseFloat(computedStyle.marginBottom);
-
-    return paddingTop + paddingBottom + marginTop + marginBottom;
-  }
 
   function expandStepRegion(step, index) {
     if (!step) {
@@ -101,48 +99,61 @@ function app() {
   }
 
   function markStepAsComplete(button, index) {
-    //let checkMarkStatus = step.children[3];
+    let checkMarkStatus = steps[index].children[3];
+
+    loaderCircles[index].style.display = "flex";
+    checkMarkStatus.ariaLabel = "Loading, please wait...";
 
     // Show the check mark
-    checkMarks[index].style.display = "flex";
+    setTimeout(() => {
+      loaderCircles[index].style.display = "none";
+      checkMarkStatus.ariaLabel = "successfully marked as complete";
+      checkMarks[index].classList.add("animate");
+      // Add the index to the completed array
+      completed.push(index);
 
-    // Add the index to the completed array
-    completed.push(index);
+      // Update the completed count and progress bar
+      completeCount.innerHTML = `${completed.length}`;
+      progressBar.style.width = `${20 * completed.length}%`;
 
-    // Update the completed count and progress bar
-    completeCount.innerHTML = `${completed.length}`;
-    progressBar.style.width = `${20 * completed.length}%`;
-
-    // Set aria-pressed attribute to true
-    button.ariaPressed = "true";
-    button.ariaLabel = button.ariaLabel.replace(
-      "as complete",
-      "as not complete"
-    );
+      // Set aria-pressed attribute to true
+      button.ariaPressed = "true";
+      button.ariaLabel = button.ariaLabel.replace(
+        "as complete",
+        "as not complete"
+      );
+      moveToNextIncompleteStep();
+    }, 1000);
   }
 
   function markStepAsIncomplete(button, index) {
-    if (!checkMarks || !dottedCircles || !completeCount || !progressBar) {
-      console.log("Error: missing elements");
-      return;
-    }
+    let checkMarkStatus = steps[index].children[3];
+
     // Hide the check mark and show the dotted circle
-    checkMarks[index].style.display = "none";
-    dottedCircles[index].style.display = "block";
+    checkMarks[index].classList.remove("animate");
+    loaderCircles[index].style.display = "flex";
 
-    // Remove the index from the completed array
-    completed = completed.filter((c) => c !== index);
+    checkMarkStatus.ariaLabel = "Loading, please wait...";
 
-    // Update the completed count and progress bar
-    completeCount.innerHTML = `${completed.length}`;
-    progressBar.style.width = `${20 * completed.length}%`;
+    setTimeout(() => {
+      loaderCircles[index].style.display = "none";
+      dottedCircles[index].style.display = "block";
+      checkMarkStatus.ariaLabel = "successfully marked as incomplete";
 
-    // Set aria-pressed attribute to false
-    button.ariaPressed = "false";
-    button.ariaLabel = button.ariaLabel.replace(
-      "as not complete",
-      "as complete"
-    );
+      // Remove the index from the completed array
+      completed = completed.filter((c) => c !== index);
+
+      // Update the completed count and progress bar
+      completeCount.innerHTML = `${completed.length}`;
+      progressBar.style.width = `${20 * completed.length}%`;
+
+      // Set aria-pressed attribute to false
+      button.ariaPressed = "false";
+      button.ariaLabel = button.ariaLabel.replace(
+        "as not complete",
+        "as complete"
+      );
+    }, 1000);
   }
 
   function handleStepCheck(button, index) {
@@ -155,7 +166,7 @@ function app() {
     markStepAsComplete(button, index);
   }
 
-  function moveToNextIncompleteStep() {
+  function moveToNextIncompleteStep(index) {
     if (completed.length === stepMax) {
       return;
     }
@@ -164,18 +175,25 @@ function app() {
       (s, i) => !completed.includes(i)
     );
 
-    console.log(incompleteSteps[0]);
-
-    /** if (incompleteSteps.length > 0) {
+    if (incompleteSteps.length > 0) {
       expandStepRegion(incompleteSteps[0], 1);
+      incompleteSteps[0].focus();
     } else {
       return;
-    } */
+    }
   }
 
   steps.forEach((step, index) => {
     step.addEventListener("click", function () {
       expandStepRegion(step, index);
+    });
+
+    // handle keyup events.
+    steps.forEach((step, index) => {
+      // event listener to each step for keyboard interaction.
+      step.addEventListener("keyup", function (event) {
+        handleItemsArrowKeyPress(steps, event, index);
+      });
     });
   });
 
@@ -186,57 +204,46 @@ function app() {
     });
   });
 
-  /**
-   * KEYBOARD INTERACTIONS
-   */
-  function handleStepKeyPress(event, index) {
-    // Determining if the current step is the last or first in the region.
-    const isLastStep = index === steps.length - 1;
-    const isFirstStep = index === 0;
+  const handleItemsArrowKeyPress = (items, event, index) => {
+    const isLast = index === items.length - 1;
+    const isFirst = index === 0;
+    const next = items.item(index + 1);
+    const prev = items.item(index - 1);
+    const isStep = items[index].className.includes("step");
+    items[0].ariaExpanded = "true";
 
-    // Retrieving the next and previous steps.
-    const nextStep = steps.item(index + 1);
-    const prevStep = steps.item(index - 1);
-
-    // Setting the aria-expanded attribute of the first step.
-    steps[0].ariaExpanded = "true";
-
-    // Checking for "Enter" or "Space" key press to trigger expansion.
     if (event.key === "Enter" || event.key === " ") {
-      // Calling the function to expand the step region.
-      expandStepRegion(steps[index], index);
+      if (isStep) {
+        expandStepRegion(items[index], index);
+      }
     }
 
     if (event.key === "ArrowRight" || event.key === "ArrowDown") {
-      if (isLastStep) {
-        // If last, focus on the first step in the region.
-        steps.item(0).focus();
+      if (isLast) {
+        items.item(0).focus();
         return;
       }
-
-      // Focusing on the next step.
-      nextStep.focus();
+      next.focus();
     }
 
     if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
-      if (isFirstStep) {
-        // If first, focus on the last step.
-        steps.item(steps.length - 1).focus();
+      if (isFirst) {
+        items.item(items.length - 1).focus();
         return;
       }
 
-      // Focusing on the next step.
-      prevStep.focus();
+      prev.focus();
     }
-  }
+  };
 
-  // Iterating over focusable steps to handle keyup events for accessibility.
-  steps.forEach((step, index) => {
-    // Adding event listener to each step for keyboard interaction.
-    step.addEventListener("keyup", function (event) {
-      handleStepKeyPress(event, index);
-    });
-  });
+  /**
+   * KEYBOARD INTERACTIONS
+   *
+   * keyboard users are not only limited to accessing the checkbox
+   * but they can also expand and collapse individual steps,
+   * so they can see the extra action buttons and informations
+   * before marking the step as complete.
+   */
 
   // Handling the Escape key press to close associated menus.
   function handleMenuEscapeKeyPress(event) {
@@ -245,43 +252,6 @@ function app() {
       // Closing profile and notification menus.
       closeMenu(profileMenu, profileMenuTrigger);
       closeMenu(notificationMenu, notificationMenuTrigger);
-    }
-  }
-
-  // Handling key presses for navigation within a menu.
-  function handleMenuItemKeyPress(event, index) {
-    // Retrieving all menu items for navigation.
-    const allMenuItems = getAllMenuItem(profileMenu);
-
-    // Determining if the current item is the last or first in the list.
-    const isLastMenuItem = index === allMenuItems.length - 1;
-    const isFirstMenuItem = index === 0;
-
-    // Retrieving the next and previous menu items.
-    const nextMenuItem = allMenuItems.item(index + 1);
-    const prevMenuItem = allMenuItems.item(index - 1);
-
-    // Navigating based on ArrowRight, ArrowDown, ArrowUp, and ArrowLeft keys.
-    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
-      if (isLastMenuItem) {
-        // If last, focus on the first menu item.
-        allMenuItems.item(0).focus();
-        return;
-      }
-
-      // Focusing on the next menu item.
-      nextMenuItem.focus();
-    }
-
-    if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
-      if (isFirstMenuItem) {
-        // If first, focus on the last menu item.
-        allMenuItems.item(allMenuItems.length - 1).focus();
-        return;
-      }
-
-      // Focusing on the previous menu item.
-      prevMenuItem.focus();
     }
   }
 
@@ -299,12 +269,6 @@ function app() {
       // Returning focus to the button that triggered the menu.
       button.focus();
     }
-  }
-
-  /**Menu Handling */
-  function getAllMenuItem(menu) {
-    const allMenuItems = menu.querySelectorAll("a");
-    return allMenuItems;
   }
 
   function toggleMenu(menu, button) {
@@ -326,7 +290,8 @@ function app() {
       menu.addEventListener("keyup", handleMenuEscapeKeyPress);
       allMenuItems.forEach((item, index) => {
         item.addEventListener("keyup", (event) => {
-          handleMenuItemKeyPress(event, index);
+          // Handling key presses for navigation within a menu.
+          handleItemsArrowKeyPress(allMenuItems, event, index);
         });
       });
     }

@@ -40,6 +40,7 @@ main {
     align-items: center;
     padding-block: 20px;
     gap: 20px;
+    height: 100vh;
 }
 
 button {
@@ -51,6 +52,14 @@ button {
     border: 1px solid rgba(0, 0, 0, 0.10);
     cursor: pointer;
     transition: .3s;
+}
+
+a {
+    border-radius: 4px;
+}
+
+a:focus-visible {
+    outline: 2px solid #005BD3;
 }
 
 .select-plan {
@@ -274,13 +283,13 @@ header .tag {
     gap: 8px;
 }
 
-header .tag .dropdown .notbell img {
-    filter: brightness(0) invert(1);
+header .tag .dropdown .detail:hover {
+    background-color: var(--grey-100);
 }
 
-header .tag .dropdown .detail:hover,
-header .tag .dropdown .detail:focus-visible {
+header .tag .dropdown>button:focus-visible {
     background-color: var(--grey-100);
+    outline: 2px solid var(--states-focused);
 }
 
 .menu-focus {
@@ -475,7 +484,7 @@ header .tag .detail .badge {
 
 .steps .step {
     display: flex;
-    padding: 8px 8px 12px 8px;
+    padding: 12px 8px;
     font-size: 13px;
     font-style: normal;
     font-weight: 500;
@@ -556,43 +565,31 @@ header .tag .detail .badge {
     align-items: center;
     border: none;
     display: none;
+}
+
+.steps .step .checkmark.animate {
+    display: flex;
     animation: scaling 0.75s forwards;
 }
 
-.steps .step .dotted_circle {
+.steps .step .dotted_circle,
+.steps .step .loader-circle {
     width: 24px;
     height: 24px;
 }
 
-.steps .step .indicator svg:active {
-    animation: spin .5s linear infinite;
+.steps .step .loader-circle {
+    display: none;
+}
+
+.steps .step .loader-circle svg {
+    animation: spin .3s linear infinite;
 }
 
 .steps .step .indicator svg:hover>circle {
     stroke-dasharray: 0 0;
 }
 
-.steps .step .indicator img {
-    width: 24px;
-    height: 24px;
-    transition: all .5s;
-}
-
-.steps .step .indicator img:nth-child(1),
-.steps .step .indicator img:nth-child(2) {
-    filter: invert(54%) sepia(67%) saturate(0%) hue-rotate(158deg) brightness(89%) contrast(77%);
-}
-
-.steps .step .indicator img:nth-child(2) {
-    animation: spin .5s linear infinite;
-}
-
-.steps .step .indicator img:nth-child(2),
-.steps .step .indicator img:nth-child(3) {
-    display: none;
-}
-
-.steps .step .indicator img,
 .steps .step .indicator svg:not(.steps .step .checkmark > svg) {
     position: absolute;
     left: 0;
@@ -636,7 +633,7 @@ header .tag .detail .badge {
     font-size: 13px;
     font-style: normal;
     font-weight: 500;
-    margin-top: 5px;
+    margin-top: 2.5px;
     color: var(--grey-200);
 }
 
