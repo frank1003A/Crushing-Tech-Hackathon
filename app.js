@@ -183,7 +183,6 @@ function app() {
     btn.addEventListener("click", function () {
       dottedCircles[index].style.display = "none";
       handleStepCheck(btn, index);
-      moveToNextIncompleteStep();
     });
   });
 
