@@ -1,57 +1,100 @@
 function app() {
   const guideContainer = document.getElementById("stepper");
-  const btn_guide = document.getElementById("toggle-guide");
+  const guideBtn = document.getElementById("toggle-guide");
   const chevDownIcon = document.getElementById("chev-down");
-  let trialCall = document.getElementById("trial-callout");
+  let trialCallBtn = document.querySelector("#close-trial-button");
+  let trialCall = document.querySelector("#trial-callout");
   let completeCount = document.getElementById("complete-count");
   let progressBar = document.getElementById("progress-line");
-  let userDropDown = document.getElementById("user-dropdown");
-  let notDropDown = document.getElementById("not-dropdown");
+  let menus = document.querySelectorAll(".dropdown");
   const steps = document.querySelectorAll(".step");
   const checkBoxButtons = document.querySelectorAll(".indicator");
   let dottedCircles = document.querySelectorAll(".dotted_circle");
   let checkMarks = document.querySelectorAll(".checkmark");
+  const contents = document.querySelectorAll(".info");
 
   //
   let isActive = 0;
   let completed = [];
   const stepMax = 5;
 
+  //
+  const profileMenuTrigger = menus[1].querySelector("button");
+  const profileMenu = menus[1].querySelector(".dropdown-container");
+  const notificationMenuTrigger = menus[0].querySelector("button");
+  const notificationMenu = menus[0].querySelector(".dropdown-container");
+
   // Add "step-active" class to the first step by default
   const firstStep = steps[isActive];
-  firstStep.classList.add("step-active");
-  firstStep.ariaExpanded = "true";
+  expandStepRegion(firstStep, 0);
 
-  function rotateChevronIcon() {
+  /**
+   *  TRIAL CARD
+   */
+  function closeTrialCallout() {
+    trialCall.style.display = "none";
+  }
+
+  trialCallBtn.addEventListener("click", function () {
+    closeTrialCallout();
+  });
+
+  /**
+   * STEP EXPANSION AND MARKING
+   */
+
+  function rotateChevronIcon(btn) {
     if (chevDownIcon.classList.contains("rotate_180")) {
       chevDownIcon.classList.remove("rotate_180");
       chevDownIcon.classList.add("rotate_0");
       guideContainer.ariaExpanded = "false";
+      btn.ariaLabel.replace("collapse guide", "expand guide");
     } else {
       chevDownIcon.classList.remove("rotate_0");
       chevDownIcon.classList.add("rotate_180");
       guideContainer.ariaExpanded = "true";
+      btn.ariaLabel.replace("expand guide", "collapse guide");
     }
   }
 
-  btn_guide.addEventListener("click", function () {
+  guideBtn.addEventListener("click", function () {
+    if (!guideContainer) {
+      console.error("Error: guide-container element not found.");
+      return;
+    }
     // Toggle the "display_none" class on the stepper element
     guideContainer.classList.toggle("display_none");
-
     // Call the function to rotate the chevron icon
-    rotateChevronIcon();
+    rotateChevronIcon(this);
   });
 
+  function calculatePaddingOrMargin(element) {
+    const computedStyle = window.getComputedStyle(element);
+    const paddingTop = parseFloat(computedStyle.paddingTop);
+    const paddingBottom = parseFloat(computedStyle.paddingBottom);
+    const marginTop = parseFloat(computedStyle.marginTop);
+    const marginBottom = parseFloat(computedStyle.marginBottom);
+
+    return paddingTop + paddingBottom + marginTop + marginBottom;
+  }
+
   function expandStepRegion(step, index) {
+    if (!step) {
+      console.error("Error: Step element not found.");
+      return;
+    }
+
     // Remove "step-active" class and set aria-expanded to false for all steps
     for (let i = 0; i < steps.length; i++) {
       steps[i].classList.remove("step-active");
       steps[i].ariaExpanded = "false";
+      steps[i].style.height = "45px";
     }
 
     // Add "step-active" class and set aria-expanded to true for the selected step
     step.classList.add("step-active");
     step.ariaExpanded = "true";
+    step.style.height = contents[index].scrollHeight + 25 + "px";
 
     // Set the active step index
     isActive = index;
@@ -79,6 +122,10 @@ function app() {
   }
 
   function markStepAsIncomplete(button, index) {
+    if (!checkMarks || !dottedCircles || !completeCount || !progressBar) {
+      console.log("Error: missing elements");
+      return;
+    }
     // Hide the check mark and show the dotted circle
     checkMarks[index].style.display = "none";
     dottedCircles[index].style.display = "block";
@@ -98,7 +145,6 @@ function app() {
     );
   }
 
-  // Function to handle step check
   function handleStepCheck(button, index) {
     for (let i = 0; i < completed.length; i++) {
       if (completed[i] === index) {
@@ -121,7 +167,7 @@ function app() {
     console.log(incompleteSteps[0]);
 
     /** if (incompleteSteps.length > 0) {
-      expandStepRegion(incompleteSteps[0], 0);
+      expandStepRegion(incompleteSteps[0], 1);
     } else {
       return;
     } */
@@ -141,6 +187,9 @@ function app() {
     });
   });
 
+  /**
+   * KEYBOARD INTERACTIONS
+   */
   function handleStepKeyPress(event, index) {
     // Determining if the current step is the last or first in the region.
     const isLastStep = index === steps.length - 1;
@@ -190,27 +239,6 @@ function app() {
     });
   });
 
-  // Hiding the trial callout by setting
-  // its display property to "none".
-  function closeTrialCallout() {
-    trialCall.style.display = "none";
-  }
-
-  // Closing the menu by removing the "menu-active" class and updating aria-expanded.
-  function closeMenu(menu, button) {
-    // Checking if the menu is currently active.
-    if (menu.classList.contains("menu-active")) {
-      // Removing the "menu-active" class to hide the menu.
-      menu.classList.remove("menu-active");
-
-      // Updating the aria-expanded attribute to indicate the menu is closed.
-      button.ariaExpanded = "false";
-
-      // Returning focus to the button that triggered the menu.
-      button.focus();
-    }
-  }
-
   // Handling the Escape key press to close associated menus.
   function handleMenuEscapeKeyPress(event) {
     // Checking if the pressed key is "Escape".
@@ -258,6 +286,23 @@ function app() {
     }
   }
 
+  // Closing the menu by removing the "menu-active" class and updating aria-expanded.
+  function closeMenu(menu, button) {
+    // Checking if the menu is currently active.
+    if (menu.classList.contains("menu-active")) {
+      // Removing the "menu-active" class to hide the menu.
+      menu.classList.remove("menu-active");
+      button.classList.remove("menu-focus");
+
+      // Updating the aria-expanded attribute to indicate the menu is closed.
+      button.ariaExpanded = "false";
+
+      // Returning focus to the button that triggered the menu.
+      button.focus();
+    }
+  }
+
+  /**Menu Handling */
   function getAllMenuItem(menu) {
     const allMenuItems = menu.querySelectorAll("a");
     return allMenuItems;
@@ -268,6 +313,7 @@ function app() {
     const allMenuItems = menu.querySelectorAll("a");
     const allButtons = menu.querySelectorAll("button");
     menu.classList.toggle("menu-active");
+    button.classList.add("menu-focus");
 
     if (isExpanded) {
       button.ariaExpanded = "false";
@@ -287,14 +333,6 @@ function app() {
     }
   }
 
-  // user dropdown
-  let profileMenuTrigger = userDropDown.children[0];
-  let profileMenu = userDropDown.children[1];
-
-  // notification dropdown
-  let notificationMenuTrigger = notDropDown.children[0];
-  let notificationMenu = notDropDown.children[1];
-
   profileMenuTrigger.addEventListener("click", function () {
     toggleMenu(profileMenu, profileMenuTrigger);
   });
@@ -304,13 +342,13 @@ function app() {
   });
 
   window.addEventListener("mouseup", function (event) {
-    if (
-      event.target != userDropDown &&
-      event.target.parentNode != userDropDown
-    ) {
+    if (event.target != profileMenu && event.target.parentNode != profileMenu) {
       closeMenu(profileMenu, profileMenuTrigger);
     }
-    if (event.target != notDropDown && event.target.parentNode != notDropDown) {
+    if (
+      event.target != notificationMenu &&
+      event.target.parentNode != notificationMenu
+    ) {
       closeMenu(notificationMenu, notificationMenuTrigger);
     }
   });
