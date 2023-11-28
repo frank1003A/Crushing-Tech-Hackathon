@@ -13,12 +13,10 @@ function app() {
   let loaderCircles = document.querySelectorAll(".loader-circle");
   let checkMarks = document.querySelectorAll(".checkmark");
   const contents = document.querySelectorAll(".info");
-  const focusableElements = document.querySelectorAll('[tabindex="0"]');
   //
   let isActive = 0;
   let completed = [];
   const stepMax = 5;
-  let resizeTimer;
   //
   const profileMenuTrigger = menus[1].querySelector("button");
   const profileMenu = menus[1].querySelector(".dropdown-container");
@@ -44,7 +42,7 @@ function app() {
    * STEP EXPANSION AND MARKING
    */
 
-  function rotateChevronIcon(btn) {
+  function rotateChevronIcon() {
     if (chevDownIcon.classList.contains("rotate_180")) {
       chevDownIcon.classList.remove("rotate_180");
       chevDownIcon.classList.add("rotate_0");
@@ -61,19 +59,21 @@ function app() {
       console.error("Error: guide-container element not found.");
       return;
     }
+
     // Toggle the "display_none" class on the stepper element
     guideContainer.classList.toggle("display_none");
 
-    /**const isExpanded =
+    // Call the function to rotate the chevron icon
+    rotateChevronIcon(this);
+
+    const isExpanded =
       guideContainer.attributes["aria-expanded"].value === "true";
 
     if (isExpanded) {
-      btn.ariaLabel = "collapse guide";
+      this.ariaLabel = "collapse guide";
     } else {
-      btn.ariaLabel = "expand guide";
-    } */
-    // Call the function to rotate the chevron icon
-    rotateChevronIcon(this);
+      this.ariaLabel = "expand guide";
+    }
   });
 
   function expandStepRegion(step, index) {
@@ -92,10 +92,9 @@ function app() {
     // Add "step-active" class and set aria-expanded to true for the selected step
     step.classList.add("step-active");
     step.ariaExpanded = "true";
-    step.style.height = contents[index].scrollHeight + 25 + "px";
-
     // Set the active step index
     isActive = index;
+    step.style.height = contents[isActive].scrollHeight + 30 + "px";
   }
 
   function markStepAsComplete(button, index) {
