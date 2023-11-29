@@ -165,18 +165,20 @@ function app() {
     markStepAsComplete(button, index);
   }
 
-  function moveToNextIncompleteStep(index) {
+  function moveToNextIncompleteStep() {
+    let incompleteSteps = [];
     if (completed.length === stepMax) {
       return;
     }
 
-    let incompleteSteps = Array.from(steps).filter(
-      (s, i) => !completed.includes(i)
-    );
-
+    let s = Array.from(steps).filter((s, i) => {
+      if (!completed.includes(i)) {
+        incompleteSteps.push(i);
+      }
+    });
     if (incompleteSteps.length > 0) {
-      expandStepRegion(incompleteSteps[0], 1);
-      incompleteSteps[0].focus();
+      expandStepRegion(steps[incompleteSteps[0]], incompleteSteps[0]);
+      steps[incompleteSteps[0]].focus();
     } else {
       return;
     }
