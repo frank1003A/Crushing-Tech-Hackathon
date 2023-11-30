@@ -13,6 +13,7 @@ function app() {
   let loaderCircles = document.querySelectorAll(".loader-circle");
   let checkMarks = document.querySelectorAll(".checkmark");
   const contents = document.querySelectorAll(".info");
+  const loader = document.querySelector(".loader-container");
   //
   let isActive = 0;
   let completed = [];
@@ -22,6 +23,12 @@ function app() {
   const profileMenu = menus[1].querySelector(".dropdown-container");
   const notificationMenuTrigger = menus[0].querySelector("button");
   const notificationMenu = menus[0].querySelector(".dropdown-container");
+
+  window.addEventListener("load", function () {
+    setTimeout(() => {
+      loader.style.display = "none";
+    }, 2000);
+  });
 
   // Add "step-active" class to the first step by default
   const firstStep = steps[isActive];
