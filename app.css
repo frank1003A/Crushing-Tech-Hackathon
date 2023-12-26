@@ -41,7 +41,7 @@ main {
     padding-block: 20px;
     gap: 20px;
     /*temporary fix for layout break on scrollbar visible */
-    height: 80vh;
+    transition: all .5s;
 }
 
 button {
@@ -102,9 +102,11 @@ a:focus-visible {
     padding: 6px;
     border: none;
     position: relative;
+    transition: .5s;
 }
 
-.icon-btn:focus-visible {
+.icon-btn:focus-visible,
+.icon-btn:focus {
     outline: 2px solid #005BD3;
 }
 
@@ -200,6 +202,7 @@ a:focus-visible {
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
+    gap: 4px;
 }
 
 .flex_between {
@@ -372,7 +375,6 @@ header .tag .detail .badge {
     }
 }
 
-
 .top-frame {
     position: relative;
     max-width: 800px;
@@ -387,21 +389,18 @@ header .tag .detail .badge {
     font-weight: 500;
     padding-block: 16px;
     padding-inline: 12px;
-    transition: display .5s;
+    transition: opacity .1s, transform .1s;
+
 }
 
-.top-frame.remove {
-    animation: fadeOut 2s;
-}
-
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-    }
+.remove {
+    opacity: 0;
+    transition: .3s;
+    visibility: hidden;
+    overflow: hidden;
+    height: 0px;
+    padding-block: 0px;
+    transform: translateY(-100%);
 }
 
 .top-frame .edge {
@@ -418,7 +417,7 @@ header .tag .detail .badge {
     border-radius: 18px;
     background: #fff;
     height: auto;
-    transition: all .3s ease 0s;
+    transition: .5s;
     border: 1px solid #DBDBDB;
 }
 
@@ -563,7 +562,8 @@ header .tag .detail .badge {
     height: 24px;
 }
 
-.steps .step .indicator:focus-visible {
+.steps .step .indicator:focus-visible,
+.steps .step .indicator:focus {
     outline: 2px solid var(--states-focused);
     outline-offset: 2px;
 }
@@ -602,7 +602,8 @@ header .tag .detail .badge {
     animation: spin .3s linear infinite;
 }
 
-.steps .step .indicator svg:hover>circle {
+.steps .step .indicator svg:hover>circle,
+.steps .step .indicator:focus-visible>circle {
     stroke-dasharray: 0 0;
 }
 
@@ -884,6 +885,17 @@ li {
         left: 10px;
         right: 10px;
         width: calc(100% - 20px) !important;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-100%);
     }
 }
 
