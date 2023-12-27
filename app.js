@@ -133,9 +133,16 @@ function app() {
   }
 
   function markStepAsComplete(button, index) {
+    if (completed.length === stepMax) {
+      return;
+    }
+
+    // Disable the button to prevent multiple clicks
+    button.disabled = true;
+
     let checkMarkStatus = steps[index].children[3];
 
-    loaderCircles[index].style.display = "flex";
+    loaderCircles[index].style.display = "block";
     checkMarkStatus.ariaLabel = "Loading, please wait...";
 
     // Show the check mark
@@ -157,11 +164,21 @@ function app() {
         "as not complete"
       );
       moveToNextIncompleteStep();
+
+      // Re-enable the button after completing the task
+      button.disabled = false;
+
+      if (completed.length === stepMax) {
+        setFocus(button);
+      }
     }, 1000);
   }
 
   function markStepAsIncomplete(button, index) {
     let checkMarkStatus = steps[index].children[3];
+
+    // Disable the button to prevent multiple clicks
+    button.disabled = true;
 
     // Hide the check mark and show the dotted circle
     checkMarks[index].classList.remove("animate");
@@ -187,6 +204,10 @@ function app() {
         "as not complete",
         "as complete"
       );
+      // Disable the button to prevent multiple clicks
+      button.disabled = false;
+
+      setFocus(button);
     }, 1000);
   }
 
@@ -216,6 +237,7 @@ function app() {
       let index = incompleteSteps[0];
       let nextIncompleteStep = steps[incompleteSteps[0]];
       expandStepRegion(nextIncompleteStep, index);
+
       setFocus(checkBoxButtons[index]);
     } else {
       return;
