@@ -416,9 +416,9 @@ header .tag .detail .badge {
     padding: 12px;
     border-radius: 18px;
     background: #fff;
-    height: auto;
-    transition: .5s;
+    transition: .3s;
     border: 1px solid #DBDBDB;
+    overflow: hidden;
 }
 
 .display_none {
@@ -494,7 +494,7 @@ header .tag .detail .badge {
     align-items: flex-start;
     margin-top: 16px;
     height: auto;
-    transition: height .3s ease 0s;
+    transition: .3s;
 }
 
 .steps .step {

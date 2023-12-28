@@ -18,6 +18,7 @@ function app() {
   let isActive = 0;
   let completed = [];
   const stepMax = 5;
+  let guideExpanded = true;
   //
   const profileMenuTrigger = menus[1].querySelector("button");
   const profileMenu = menus[1].querySelector(".dropdown-container");
@@ -64,6 +65,15 @@ function app() {
     element.style.display = value;
   };
 
+  const el = (id) => {
+    return document.getElementById(id);
+  };
+
+  const setElementHeight = (element, value) => {
+    validateElementPresence(element);
+    element.style.height = value;
+  };
+
   // Add "step-active" class to the first step by default
   const firstStep = steps[isActive];
   expandStepRegion(firstStep, 0);
@@ -96,16 +106,28 @@ function app() {
     }
   }
 
+  function collapseGuide() {
+    setDisplayStyleProperty(guideContainer, "none");
+  }
+
+  function expandGuide() {
+    setDisplayStyleProperty(guideContainer, "block");
+  }
+
   guideBtn.addEventListener("click", function () {
     validateElementPresence(guideContainer);
 
     // Toggle the "display_none" class on the stepper element
-    guideContainer.classList.toggle("display_none");
-
+    guideExpanded = !guideExpanded;
+    if (guideExpanded === false) {
+      collapseGuide();
+    } else {
+      expandGuide();
+    }
     // Call the function to rotate the chevron icon
     rotateChevronIcon(this);
 
-    const isExpanded = isAriaExpanded(guideContainer);
+    const isExpanded = el("maincontentpanel").getAttribute("aria-expanded");
 
     if (isExpanded) {
       this.setAttribute("aria-label", "collapse guide");
@@ -129,7 +151,7 @@ function app() {
     step.ariaExpanded = "true";
     // Set the active step index
     isActive = index;
-    step.style.height = contents[isActive].scrollHeight + 30 + "px";
+    setElementHeight(step, contents[isActive].scrollHeight + 30 + "px");
   }
 
   function markStepAsComplete(button, index) {
@@ -142,12 +164,12 @@ function app() {
 
     let checkMarkStatus = steps[index].children[3];
 
-    loaderCircles[index].style.display = "block";
+    setDisplayStyleProperty(loaderCircles[index], "block");
     checkMarkStatus.ariaLabel = "Loading, please wait...";
 
     // Show the check mark
     setTimeout(() => {
-      loaderCircles[index].style.display = "none";
+      setDisplayStyleProperty(loaderCircles[index], "none");
       checkMarkStatus.ariaLabel = "successfully marked as complete";
       checkMarks[index].classList.add("animate");
       // Add the index to the completed array
@@ -182,13 +204,13 @@ function app() {
 
     // Hide the check mark and show the dotted circle
     checkMarks[index].classList.remove("animate");
-    loaderCircles[index].style.display = "flex";
+    setDisplayStyleProperty(loaderCircles[index], "flex");
 
     checkMarkStatus.ariaLabel = "Loading, please wait...";
 
     setTimeout(() => {
-      loaderCircles[index].style.display = "none";
-      dottedCircles[index].style.display = "block";
+      setDisplayStyleProperty(loaderCircles[index], "none");
+      setDisplayStyleProperty(dottedCircles[index], "block");
       checkMarkStatus.ariaLabel = "successfully marked as incomplete";
 
       // Remove the index from the completed array
@@ -263,7 +285,7 @@ function app() {
 
   checkBoxButtons.forEach((btn, index) => {
     btn.addEventListener("click", function () {
-      dottedCircles[index].style.display = "none";
+      setDisplayStyleProperty(dottedCircles[index], "none");
       handleStepCheck(btn, index);
     });
   });
@@ -271,8 +293,11 @@ function app() {
   const handleItemsArrowKeyPress = (items, event, index) => {
     const isLast = index === items.length - 1;
     const isFirst = index === 0;
+    const current = items[index];
     const next = items[index + 1];
     const prev = items[index - 1];
+    const pm = profileMenu.classList.contains(activeMenuClass);
+    const nm = notificationMenu.classList.contains(activeMenuClass);
     //items[0].setAttribute("aria-expanded", "true");
 
     if (event.key === "ArrowRight" || event.key === "ArrowDown") {
@@ -313,16 +338,17 @@ function app() {
     });
   }
 
-  document.addEventListener("keyup", function (e) {
+  document.addEventListener("keyup", function (event) {
     if (
       profileMenu.classList.contains(activeMenuClass) ||
-      notificationMenu.classList.contains(activeMenuClass)
+      notificationMenu.classList.contains(activeMenuClass) ||
+      event.key == "Tab"
     ) {
       return;
     } else {
       const allFocusableElement = getVisibleTabbableElements();
 
-      const handleTabKey = function (event) {
+      const handlePageKeyNavigation = function (event) {
         const index = allFocusableElement.indexOf(event.target);
 
         if (index !== -1) {
@@ -330,7 +356,7 @@ function app() {
         }
       };
       allFocusableElement.forEach((el) => {
-        el.addEventListener("keyup", handleTabKey);
+        el.addEventListener("keyup", handlePageKeyNavigation);
       });
     }
   });
@@ -441,6 +467,10 @@ function app() {
     ) {
       closeMenu(notificationMenu, notificationMenuTrigger);
     }
+  });
+
+  window.addEventListener("resize", function () {
+    expandStepRegion(steps[isActive], isActive);
   });
 }
 
