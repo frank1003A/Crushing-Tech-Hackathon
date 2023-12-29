@@ -108,10 +108,12 @@ function app() {
 
   function collapseGuide() {
     setDisplayStyleProperty(guideContainer, "none");
+    guideBtn.setAttribute("aria-expanded", "false");
   }
 
   function expandGuide() {
     setDisplayStyleProperty(guideContainer, "block");
+    guideBtn.setAttribute("aria-expanded", "true");
   }
 
   guideBtn.addEventListener("click", function () {
@@ -127,7 +129,7 @@ function app() {
     // Call the function to rotate the chevron icon
     rotateChevronIcon(this);
 
-    const isExpanded = el("maincontentpanel").getAttribute("aria-expanded");
+    const isExpanded = guideBtn.getAttribute("aria-expanded");
 
     if (isExpanded) {
       this.setAttribute("aria-label", "collapse guide");
@@ -470,7 +472,11 @@ function app() {
   });
 
   window.addEventListener("resize", function () {
-    expandStepRegion(steps[isActive], isActive);
+    if (guideExpanded) {
+      expandStepRegion(steps[isActive], isActive);
+    } else {
+      return;
+    }
   });
 }
 
