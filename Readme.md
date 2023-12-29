@@ -14,30 +14,26 @@ I developed a shopify online store onboarding web application using HTML, CSS, a
 
 I implemented a guided stepper that dynamically expands and collapses based on user interaction. The stepper allows users to navigate through different steps with ease, ensuring a smooth and accessible flow.
 
-```javascript
-// guided stepper
-steps.forEach((step, index) => {
-  step.addEventListener("click", function () {
-    expandStepRegion(step, index);
-  });
-});
-```
-
 #### Interactive Checkboxes
 
 To enhance user engagement, I incorporated interactive checkboxes with keyboard accessibility. Users could mark steps as complete or incomplete, triggering dynamic UI updates.
 
-```javascript
-// Interactive checkboxes
-function handleStepCheck(button, index) {
-  function handleStepCheck(button, index) {
-    for (let i = 0; i < completed.length; i++) {
-      if (completed[i] === index) {
-        markStepAsIncomplete(button, index);
-        return;
-      }
-    }
-    markStepAsComplete(button, index);
-  }
-}
-```
+#### Page Navigation
+
+For an improved user experience, I implemented page navigation with keyboard support. Keyboard Users can interact with the page using arrow keys.
+
+#### Menu Navigation
+
+For an improved user experience, I implemented menu navigation with keyboard support. Keyboard Users can interact with profile and notification menus using arrow keys.
+
+#### Learning Experience
+
+Throughout the hackathon, I gained valuable insights into the intricacies of web accessibility. I deepened my understanding of creating inclusive designs that cater to users relying on keyboard navigation and screen readers. This experience has further fueled my commitment to delivering user-centric and accessible web solutions.
+
+#### Next Steps
+
+As a lifelong learner, I plan to continue refining my skills in web accessibility and UI/UX design. I am eager to apply the knowledge gained from this hackathon to future projects, ensuring that accessibility remains a top priority in my development endeavors.
+
+#### Hackathon in Action
+
+This hackathon was not just a coding challenge but an opportunity to contribute to a more inclusive web environment. I look forward to incorporating these principles into all my future projects.
